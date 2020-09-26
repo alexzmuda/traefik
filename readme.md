@@ -1,6 +1,6 @@
 # Mac & Linux setup
 
-This documents explains how to set up dev enviroment where dockers are handled by external computer. 
+This document explains how to set up dev enviroment where dockers are handled by external computer. 
 
 ## Requirements
 
