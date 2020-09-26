@@ -1,0 +1,68 @@
+log:
+  level: INFO
+
+api:
+  insecure: true
+  dashboard: true
+
+entryPoints:
+  web:
+    address: ":80"
+  localhost-vue-cli:
+    address: ":8081"
+  localhost-vue-cli2:
+    address: ":8082"
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+  file:
+    filename: "traefik.yml"
+
+## DYNAMIC CONFIGURATION
+http:
+  routers:
+    route-to-local-ip:
+      rule: "HostRegexp(`{subdomain:.+}.cement.localhost`)"
+      service: route-to-local-ip-service
+      priority: 1000
+      entryPoints:
+        - web
+    route-to-localhost-ip:
+      # HostRegexp(`{subdomain:.+}.<your_new_domain>.test`)
+      rule: "Host(`localhost`)"
+      service: route-to-localhost-ip-service
+      priority: 1000
+      entryPoints:
+        - localhost-vue-cli
+    route-to-localhost-ip2:
+      rule: "Host(`localhost`)"
+      service: route-to-localhost-ip-service
+      priority: 1000
+      entryPoints:
+        - localhost-vue-cli2
+    taximanager-localhost:
+      rule: "Host(`api.taximanager.loc`)"
+      service: route-to-taximanager-localhost
+      priority: 1000
+      entryPoints:
+        - web
+
+  services:
+    route-to-local-ip-service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.0.65:80"
+    route-to-localhost-ip-service:
+      loadBalancer:
+        servers:
+          - url: "http://127.0.0.1:8081"
+    route-to-localhost-ip-service2:
+      loadBalancer:
+        servers:
+          - url: "http://127.0.0.1:8082"
+    route-to-taximanager-localhost:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.0.157:80"
