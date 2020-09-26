@@ -18,7 +18,7 @@ This documents explains how to set up dev enviroment where dockers are handled b
 
 ```https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/```
 
-* SSH config with hostname (i.e. hp.localhost)
+* SSH config with hostname (i.e. linux.local)
 ```
 Host linux.local
 	HostName 192.168.x.x
