@@ -49,6 +49,11 @@ http:
       service: route-to-taximanager-localhost
       priority: 1000
       entryPoints:
+    taximanager-test-localhost:
+      rule: "Host(`dev1.taximanager.loc`)"
+      service: route-to-taximanager-localhost
+      priority: 1000
+      entryPoints:
         - web
     taximanager-app-localhost:
       rule: "Host(`app.taxmanage.loc`)"
@@ -73,7 +78,7 @@ http:
     route-to-taximanager-localhost:
       loadBalancer:
         servers:
-          - url: "http://192.168.0.157:80"
+          - url: "http://api.taximanager.loc:8888"
     route-to-taxmanage-app-localhost:
       loadBalancer:
         servers:
