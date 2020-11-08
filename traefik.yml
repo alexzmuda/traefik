@@ -5,6 +5,8 @@ api:
   insecure: true
   dashboard: true
 
+defaultEntryPoints: [ "http", "https","ws", "wss" ]
+
 entryPoints:
   web:
     address: ":80"
@@ -48,6 +50,12 @@ http:
       priority: 1000
       entryPoints:
         - web
+    taximanager-app-localhost:
+      rule: "Host(`app.taxmanage.loc`)"
+      service: route-to-taxmanage-app-localhost
+      priority: 1000
+      entryPoints:
+        - web
 
   services:
     route-to-local-ip-service:
@@ -66,3 +74,7 @@ http:
       loadBalancer:
         servers:
           - url: "http://192.168.0.157:80"
+    route-to-taxmanage-app-localhost:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.0.157:8084"
